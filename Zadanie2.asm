@@ -2,7 +2,7 @@
 	TekstJawny: .space 50
 	Klucz: .space 9
 	Pytanie: .asciiz "Szyfrujemy czy deszyfrujemy ? (S - szyfrowanie, D - deszyfrowanie)\n"
-	JakiTekst: .asciiz "\nPodaj tekst do szyfrowania:\n"
+	JakiTekst: .asciiz "\nPodaj tekst do szyfrowania lub szyfrogram:\n"
 	JakiKlucz: .asciiz "\nPodaj klucz:\n"
 	Wynik: .asciiz "\nWynik dzialania:\n"
 	
@@ -16,6 +16,11 @@
 		syscall 		#wpisanie do robimy
 		move $t7 $v0 		#wpisanie znaku do t7
 		
+		beq $t7 68 WczytajTekst	#wpisano D czyli jest ok
+		beq $t7 83 WczytajTekst	#wpisano S czyli jest ok
+		
+		j PytankoDoUzytkownika	#wpisano cos innego wiec jeszcze raz
+		
 	WczytajTekst:
 		li $v0 4
 		la $a0 JakiTekst
@@ -24,7 +29,7 @@
 		li $v0 8
 		li $a1 50
 		la $a0 TekstJawny 	
-		syscall			#wczytaj tekst jawny
+		syscall			#wczytaj tekst jawny / szyfrogram
 	
 	WczytajKlucz:
 		li $v0 4
@@ -43,7 +48,7 @@
 		
 	Ustawienie:
 		li $t0 0 		#licznik petli i = 0
-		la $a1 TekstJawny	#wpisz tekst jawny do a1
+		la $a1 TekstJawny	#wpisz tekst jawny / szyfrogram do a1
 		la $a2 Klucz		#wpisz klucz do a2
 	
 	loop:
@@ -99,7 +104,15 @@
 		j Wyswietl
 	
 	Deszyfruj:
+		add $s1 $s1 -65		#znaki od 0 do 25 dla szyfrogramu
+		add $s2 $s2 -65		#znaki od 0 do 25 dla klucza
 		
+		sub $s3 $s1 $s2		#utworz znak koncowy w s3 (od tesktu odejmujemy klucz)
+		
+		bgez $s3 Wyswietl	#jak sie miesci w literkach to wyswietl
+		add $s3 $s3 26		#jak nie to dodaj 26 i jestesmy w zakresie
+		
+		j Wyswietl		#wyswitlamy
 	
 	Wyswietl:
 		add $s3 $s3 65		#stworz kod ASCII
