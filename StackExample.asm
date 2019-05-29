@@ -14,10 +14,10 @@
 
 	
 	li $v0 1	
-	lw $a0 0($sp)
+	lw $a0 ($sp)
 	syscall		#wyswietl druga liczbe
 	
-	addi $sp $sp -4
+	addi $sp $sp 4
 	
-	lw $a0 0($sp)
+	lw $a0 ($sp)
 	syscall		#wyswietl pierwsza liczbe
