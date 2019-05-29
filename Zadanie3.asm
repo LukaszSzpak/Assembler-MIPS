@@ -167,11 +167,11 @@
 		j koniecpetli
 	
 	Mult:
-		la $s5 Rejestr1
+		la $t4 Rejestr1
 		jal CheckRegister
 		la $s5 Rejestr1
 		
-		la $s5 Rejestr2
+		la $t4 Rejestr2
 		jal CheckRegister
 		la $t8 Rejestr2
 		jal AddToStack			#wpisz pierwszy rejestr
