@@ -184,7 +184,7 @@
 		
 		j koniecpetli
 	Jr:
-		la $s5 Rejestr1
+		la $t4 Rejestr1
 		jal CheckRegister		#wpisz pierwszy rejest
 		la $t8 Rejestr1
 		jal AddToStack
